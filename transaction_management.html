@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Management</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styles for Transaction Management */
+        .user-info {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown a:hover {
+            background-color: #f5f5f5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo"><img src="images/logo.png" alt="Logo"></div>
+            <ul class="menu">
+                <h1>Dashboard</h1>
+                <li><a href="user_management.html">User Management</a></li>
+                <li><a href="transaction_management.html">View Transaction</a></li>
+                <li><a href="analytics.html">Analytics & Reporting</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <header>
+                <div class="user-info" onclick="toggleDropdown()">
+                    <img src="images/admin.png" alt="Admin">
+                    <span>Admin</span>
+                    <div class="dropdown" id="dropdownMenu">
+                        <a href="login.html">Logout</a>
+                    </div>
+                </div>
+            </header>
+            <div class="table-section">
+                <h1>Transaction Management</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>User</th>
+                            <th>Farm Store</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>EFQICk62ryyoYRPx6U3C</td>
+                            <td>Apple</td>
+                            <td>John Doe</td>
+                            <td>Jake Farm Goodiess</td>
+                            <td>₱20</td>
+                            <td>Order Confirmed</td>
+                            <td>November 21, 2024 at 7:35:12 PM UTC+8</td>
+                        </tr>
+                        <tr>
+                            <td>gnhUlF6QGLV7Lhfxifah</td>
+                            <td>Gomu gomu nomi</td>
+                            <td>Jane Smith</td>
+                            <td>Jake Farm Goodiess</td>
+                            <td>₱5,000,000</td>
+                            <td>Order Confirmed</td>
+                            <td>November 21, 2024 at 7:35:12 PM UTC+8</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <div>Total: 2</div>
+                    <div class="pages">
+                        <button class="active">1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        ...
+                        <button>12</button>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <p>Copyright © 2023 Farmverse. All rights reserved.</p>
+                <div class="links">
+                    <a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById("dropdownMenu");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+
+        // Close the dropdown if clicked outside
+        document.addEventListener("click", function(event) {
+            const dropdown = document.getElementById("dropdownMenu");
+            const userInfo = document.querySelector(".user-info");
+            if (!userInfo.contains(event.target)) {
+                dropdown.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>

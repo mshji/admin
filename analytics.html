@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics & Reporting</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .analytics-section {
+            padding: 20px;
+        }
+
+        .analytics-cards {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 220px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .chart-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+
+        /* Dropdown styling */
+        .user-info {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown a:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo"><img src="images/logo.png" alt="Logo"></div>
+            <ul class="menu">
+                <h1>Dashboard</h1>
+                <li><a href="user_management.html">User Management</a></li>
+                <li><a href="transaction_management.html">View Transaction </a></li>
+                <li><a href="analytics.html">Analytics & Reporting</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <header>
+                <div class="user-info" onclick="toggleDropdown()">
+                    <img src="images/admin.png" alt="Admin">
+                    <span>Admin</span>
+                    <div class="dropdown" id="dropdownMenu">
+                        <a href="login.html">Logout</a>
+                    </div>
+                </div>
+            </header>
+            <div class="analytics-section">
+                <h1>Analytics & Reporting</h1>
+                <div class="analytics-cards">
+                    <div class="card">
+                        <h3>Total Registered Farmers</h3>
+                        <p id="total-farmers">Loading...</p>
+                    </div>
+                    <div class="card">
+                        <h3>Total Registered Buyers</h3>
+                        <p id="total-buyers">Loading...</p>
+                    </div>
+                    <div class="card">
+                        <h3>Daily Active <br>Users</h3>
+                        <p id="daily-active-users">Loading...</p>
+                    </div>
+                    <div class="card">
+                        <h3>Monthly Active Users</h3>
+                        <p id="monthly-active-users">Loading...</p>
+                    </div>
+                </div>
+                <br>
+                <div class="chart-container">
+                    <h2>Activity Trends</h2>
+                    <canvas id="activityChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Registered Farmers and Buyers</h2>
+                    <canvas id="registrationChart"></canvas>
+                </div>
+            </div>
+            <br>
+            <footer>
+                <p>Copyright © 2023 Farmverse. All rights reserved.</p>
+                <div class="links">
+                    <a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Sample data (replace with dynamic values from your server)
+        const farmersCount = 30;
+        const buyersCount = 45;
+        const dailyActiveUsers = 52;
+        const monthlyActiveUsers = 75;
+
+        document.getElementById("total-farmers").textContent = farmersCount;
+        document.getElementById("total-buyers").textContent = buyersCount;
+        document.getElementById("daily-active-users").textContent = dailyActiveUsers;
+        document.getElementById("monthly-active-users").textContent = monthlyActiveUsers;
+
+        // Chart.js for Activity Trends
+        const ctx1 = document.getElementById("activityChart").getContext("2d");
+        const activityChart = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [
+                    {
+                        label: 'Daily Active Users',
+                        data: [200, 210, 230, 220, 240, 250, 260, 270, 280, 290, 300, 310],
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                        fill: true,
+                    },
+                    {
+                        label: 'Monthly Active Users',
+                        data: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 2000, 2050, 2100, 2200],
+                        borderColor: '#28a745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                        fill: true,
+                    }
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                },
+            },
+        });
+
+        // Chart.js for Registered Farmers and Buyers
+        const ctx2 = document.getElementById("registrationChart").getContext("2d");
+        const registrationChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [
+                    {
+                        label: 'Registered Farmers',
+                        data: [5, 8, 12, 15, 20, 25, 30, 35, 40, 45, 50, 55],
+                        backgroundColor: 'rgba(0, 123, 255, 0.7)',
+                        borderColor: '#007bff',
+                        borderWidth: 1,
+                    },
+                    {
+                        label: 'Registered Buyers',
+                        data: [10, 15, 20, 25, 30, 35, 40, 50, 55, 60, 65, 70],
+                        backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                        borderColor: '#28a745',
+                        borderWidth: 1,
+                    }
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById("dropdownMenu");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+
+        // Close the dropdown if clicked outside
+        document.addEventListener("click", function(event) {
+            const dropdown = document.getElementById("dropdownMenu");
+            const userInfo = document.querySelector(".user-info");
+            if (!userInfo.contains(event.target)) {
+                dropdown.style.display = "none";
+            }
+        });
+        
+    </script>
+</body>
+</html>

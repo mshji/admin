@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Management</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional styles for dropdown */
+        .user-info {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown a:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo"><img src="images/logo.png" alt="Logo"></div>
+            <ul class="menu">
+                <h1>Dashboard</h1>
+                <li><a href="user_management.html">User Management</a></li>
+                <li><a href="transaction_management.html">Transaction Management</a></li>
+                <li><a href="analytics.html">Analytics & Reporting</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <header>
+                <div class="user-info" onclick="toggleDropdown()">
+                    <img src="images/admin.png" alt="Admin">
+                    <span>Admin</span>
+                    <div class="dropdown" id="dropdownMenu">
+                        <a href="login.html">Logout</a>
+                    </div>
+                </div>
+            </header>
+            <div class="table-section">
+                <h1>Transaction Management</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>TRANSACTION ID</th>
+                            <th>USER</th>
+                            <th>AMOUNT</th>
+                            <th>STATUS</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>T1001</td>
+                            <td>John Doe</td>
+                            <td>₱500</td>
+                            <td>Pending</td>
+                            <td><button onclick="approveTransaction(this)">✔</button> <button onclick="rejectTransaction(this)">✖</button></td>
+                        </tr>
+                        <tr>
+                            <td>T1002</td>
+                            <td>Jane Smith</td>
+                            <td>₱750</td>
+                            <td>Pending</td>
+                            <td><button onclick="approveTransaction(this)">✔</button> <button onclick="rejectTransaction(this)">✖</button></td>
+                        </tr>
+                        <tr>
+                            <td>T1003</td>
+                            <td>Alan Brown</td>
+                            <td>₱300</td>
+                            <td>Pending</td>
+                            <td><button onclick="approveTransaction(this)">✔</button> <button onclick="rejectTransaction(this)">✖</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <div>Total: 144</div>
+                    <div class="pages">
+                        <button class="active">1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        ...
+                        <button>12</button>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <p>Copyright © 2023 Farmverse. All rights reserved.</p>
+                <div class="links">
+                    <a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById("dropdownMenu");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+
+        // Close the dropdown if clicked outside
+        document.addEventListener("click", function(event) {
+            const dropdown = document.getElementById("dropdownMenu");
+            const userInfo = document.querySelector(".user-info");
+            if (!userInfo.contains(event.target)) {
+                dropdown.style.display = "none";
+            }
+        });
+
+        // Approve the transaction
+        function approveTransaction(button) {
+            const row = button.closest("tr");
+            const statusCell = row.querySelector("td:nth-child(4)");
+
+            const confirmation = confirm("Are you sure you want to approve this transaction?");
+            if (confirmation) {
+                statusCell.textContent = "Approved";
+                button.disabled = true; // Disable the approve button after approval
+                row.querySelector("button:nth-child(2)").disabled = true; // Disable the reject button
+            }
+        }
+
+        // Reject the transaction
+        function rejectTransaction(button) {
+            const row = button.closest("tr");
+            const statusCell = row.querySelector("td:nth-child(4)");
+
+            const confirmation = confirm("Are you sure you want to reject this transaction?");
+            if (confirmation) {
+                statusCell.textContent = "Rejected";
+                button.disabled = true; // Disable the reject button after rejection
+                row.querySelector("button:nth-child(1)").disabled = true; // Disable the approve button
+            }
+        }
+    </script>
+</body>
+</html>
